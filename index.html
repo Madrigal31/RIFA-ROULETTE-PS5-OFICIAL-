@@ -2,83 +2,69 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ruleta PS5</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PS5 Raffle Roulette</title>
   <style>
     body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: #111;
-      color: #fff;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f0f2f5;
     }
-    canvas {
-      max-width: 500px;
-      max-height: 500px;
+    .container {
+      text-align: center;
+    }
+    h1 {
+      color: #007bff;
+    }
+    .roulette {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 20px;
+      border: 3px solid #007bff;
+      border-radius: 10px;
+      background: white;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
     }
     button {
-      margin-top: 20px;
       padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      background: #007bff;
+      font-size: 1rem;
+      background-color: #007bff;
       color: white;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.4);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
     button:hover {
-      background: #0056b3;
-    }
-    #winner {
-      margin-top: 25px;
-      font-size: 26px;
-      font-weight: bold;
-      color: gold;
-      text-shadow: 0px 0px 10px #ffd700;
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <h1>🎰 Ruleta Sorteo PS5 🎮</h1>
-  <canvas id="wheel"></canvas>
-  <button onclick="spin()">🎲 Girar</button>
-  <div id="winner"></div>
+  <div class="container">
+    <h1>PS5 Raffle Roulette 🎯</h1>
+    <div id="roulette" class="roulette">---</div>
+    <button onclick="spin()">Spin</button>
+  </div>
 
   <script>
-    // Lista de números del 001 al 200
-    let numbers = Array.from({length: 200}, (_, i) => String(i+1).padStart(3, '0'));
-
-    // Crear ruleta con Chart.js
-    const ctx = document.getElementById('wheel').getContext('2d');
-    let chart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: numbers,
-        datasets: [{
-          data: Array(numbers.length).fill(1),
-          backgroundColor: numbers.map(() => 
-            `hsl(${Math.random()*360}, 80%, 50%)`
-          ),
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } }
-      }
-    });
-
     function spin() {
-      document.getElementById("winner").textContent = "Girando...";
-      
-      // Simulación de giro (3s)
-      setTimeout(() => {
-        let winner = numbers[Math.floor(Math.random()*numbers.length)];
-        document.getElementById("winner").textContent = "✨ Número ganador: " + winner + " ✨";
-      }, 3000);
+      const roulette = document.getElementById("roulette");
+      let count = 0;
+      const interval = setInterval(() => {
+        const num = Math.floor(Math.random() * 100) + 1; // 🎲 números del 1 al 100
+        roulette.textContent = num;
+        count++;
+        if (count > 20) { // después de 20 vueltas para
+          clearInterval(interval);
+        }
+      }, 100);
     }
   </script>
 </body>
